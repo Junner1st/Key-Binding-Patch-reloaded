@@ -59,8 +59,9 @@ kb.addReleaseCallback(() -> { /* 抬起时 */ });
 
 ## 📝 版权与致谢
 
+- 本 Mod 由 **Sparrow_prime** 发布。
 - 本 Mod 的 **开发与移植** 由 **DeepSeek**（AI 代码助手）完成。
-- 本 Mod 的 **功能创意** 源自 [Giant_Salted_Fish](https://github.com/Giant-Salted-Fish) 的原版 **Key-Binding-Patch** 项目，特此致谢。
+- 本 Mod 的 **功能创意** 源自 [Giant_Salted_Fish](https://github.com/Giant-Salted-Fish) 的原版 **Key-Binding-Patch** 项目，特此致谢（原作已停更）。
 - 原项目：https://github.com/Giant-Salted-Fish/Key-Binding-Patch
 
 ## 📄 许可证
