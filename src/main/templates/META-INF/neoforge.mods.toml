@@ -1,0 +1,33 @@
+# NeoForge mod metadata for Key Binding Patch
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+displayURL="https://www.mcmod.cn/class/12624.html"
+logoFile="logo.png"
+credits="All code contributors."
+authors="${mod_authors}"
+description='''
+${mod_description}
+'''
+
+[[mixins]]
+config="mixins.kbp.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1.0,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="CLIENT"
