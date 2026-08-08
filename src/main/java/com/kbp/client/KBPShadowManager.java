@@ -64,23 +64,9 @@ public final class KBPShadowManager
     {
         try
         {
-            // Access ConfigTracker.INSTANCE via reflection to stay resilient against
-            // minor API signature differences across NeoForge versions.
-            final Class< ? > tracker_class = Class.forName( "net.neoforged.fml.config.ConfigTracker" );
-            final Object tracker = tracker_class.getField( "INSTANCE" ).get( null );
-            final java.lang.reflect.Method get_configs = tracker_class.getMethod( "getConfigsByMod", String.class );
-            final Object configs = get_configs.invoke( tracker, "key_binding_patch" );
-
-            if ( configs instanceof Iterable< ? > )
-            {
-                for ( final Object cfg : ( Iterable< ? > ) configs )
-                {
-                    if ( cfg != null )
-                    {
-                        cfg.getClass().getMethod( "save" ).invoke( cfg );
-                    }
-                }
-            }
+            // ModConfigSpec.save() writes the current in-memory values to the config
+            // file on disk (delegates to ILoadedConfig.save()).
+            KBPModConfig.CONFIG_SPEC.save();
         }
         catch ( Exception e )
         {
