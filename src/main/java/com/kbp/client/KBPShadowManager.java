@@ -56,6 +56,39 @@ public final class KBPShadowManager
     }
 
     /**
+     * Persist the in-memory config value to disk. NeoForge's {@code ConfigValue.set()}
+     * only mutates the in-memory value; without explicitly saving, the change is lost
+     * on the next game restart.
+     */
+    private static void saveConfig()
+    {
+        try
+        {
+            // Access ConfigTracker.INSTANCE via reflection to stay resilient against
+            // minor API signature differences across NeoForge versions.
+            final Class< ? > tracker_class = Class.forName( "net.neoforged.fml.config.ConfigTracker" );
+            final Object tracker = tracker_class.getField( "INSTANCE" ).get( null );
+            final java.lang.reflect.Method get_configs = tracker_class.getMethod( "getConfigsByMod", String.class );
+            final Object configs = get_configs.invoke( tracker, "key_binding_patch" );
+
+            if ( configs instanceof Iterable< ? > )
+            {
+                for ( final Object cfg : ( Iterable< ? > ) configs )
+                {
+                    if ( cfg != null )
+                    {
+                        cfg.getClass().getMethod( "save" ).invoke( cfg );
+                    }
+                }
+            }
+        }
+        catch ( Exception e )
+        {
+            // Persistence failure is non-fatal; the value stays in memory.
+        }
+    }
+
+    /**
      * Create a new shadow key binding for {@code target}, register it into the
      * vanilla lookup tables and the {@link Options}, and persist it to the config.
      *
@@ -112,6 +145,7 @@ public final class KBPShadowManager
             .collect( Collectors.toList() );
         list.add( target.getName() );
         KBPModConfig.SHADOW_KEY_BINDINGS.set( list );
+        saveConfig();
 
         return shadow;
     }
@@ -168,5 +202,6 @@ public final class KBPShadowManager
             list.remove( idx );
         }
         KBPModConfig.SHADOW_KEY_BINDINGS.set( list );
+        saveConfig();
     }
 }
